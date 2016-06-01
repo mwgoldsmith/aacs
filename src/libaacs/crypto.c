@@ -365,23 +365,21 @@ static gcry_error_t _aacs_sexp_sha1(gcry_sexp_t *p_sexp_data,
         fprintf(stderr, "\n");
     }
 
-    /* Build an s-expression for the hash */
-    GCRY_VERIFY("gcry_sexp_build",
-                gcry_sexp_build(p_sexp_data, NULL,
-                                "(data"
+    char fmt[] = "(data"
 #if defined(GCRYPT_VERSION_NUMBER) && GCRYPT_VERSION_NUMBER >= 0x010600
-                                /*
-                                 * For some reason gcrypt 1.6.0
-                                 * requires 'param' flag here and not
-                                 * in key, probably a bug.
-                                 */
-                                "  (flags raw param)"
+      /*
+      * For some reason gcrypt 1.6.0
+      * requires 'param' flag here and not
+      * in key, probably a bug.
+      */
+      "  (flags raw param)"
 #else
-                                "  (flags raw)"
+      "  (flags raw)"
 #endif
-                                "  (value %m))",
-                                mpi_md
-                                ));
+      "  (value %m))";
+
+    /* Build an s-expression for the hash */
+    GCRY_VERIFY("gcry_sexp_build", gcry_sexp_build(p_sexp_data, NULL, fmt, mpi_md));
 
     /* Dump information about the data s-expression when debugging */
     if (GCRYPT_DEBUG) {
