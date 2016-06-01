@@ -803,11 +803,13 @@ ENDLOCAL
     <ClCompile Include="..\..\src\libaacs\crypto.c" />
     <ClCompile Include="..\..\src\libaacs\mkb.c" />
     <ClCompile Include="..\..\src\libaacs\mmc.c" />
+    <ClCompile Include="..\..\src\libaacs\unit_key.c" />
     <ClCompile Include="..\..\src\util\logging.c" />
     <ClCompile Include="..\..\src\util\strutl.c" />
     <ClCompile Include="src\file\keydbcfg-lexer.c" />
     <ClCompile Include="src\file\keydbcfg-parser.c" />
     <ClInclude Include="..\..\src\libaacs\content_cert.h" />
+    <ClInclude Include="..\..\src\libaacs\unit_key.h" />
     <ClInclude Include="libaacs\aacs-version.h" />
     <ClInclude Include="util\attributes.h" />
   </ItemGroup>
