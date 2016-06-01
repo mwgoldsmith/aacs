@@ -27,7 +27,7 @@
 
 #include <errno.h>
 #include <inttypes.h>
-#include <stdio.h> // remove()
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -87,28 +87,6 @@ static int64_t _file_read(AACS_FILE_H *file, uint8_t *buf, int64_t size)
     return (int64_t)got;
 }
 
-static int64_t _file_write(AACS_FILE_H *file, const uint8_t *buf, int64_t size)
-{
-    ssize_t written, result;
-
-    if (size <= 0 || size >= BD_MAX_SSIZE) {
-        BD_DEBUG(DBG_FILE | DBG_CRIT, "Ignoring invalid write of size %"PRId64" (%p)\n", size, (void*)file);
-        return 0;
-    }
-
-    for (written = 0; written < (ssize_t)size; written += result) {
-        result = write((int)(intptr_t)file->internal, buf + written, size - written);
-        if (result < 0) {
-            if (errno != EINTR) {
-                BD_DEBUG(DBG_FILE, "write() failed (%p)\n", (void*)file);
-                break;
-            }
-            result = 0;
-        }
-    }
-    return (int64_t)written;
-}
-
 static AACS_FILE_H *_file_open(const char* filename, const char *cmode)
 {
     AACS_FILE_H *file;
@@ -145,7 +123,6 @@ static AACS_FILE_H *_file_open(const char* filename, const char *cmode)
     file->close = _file_close;
     file->seek  = _file_seek;
     file->read  = _file_read;
-    file->write = _file_write;
     file->tell  = _file_tell;
 
     file->internal = (void*)(intptr_t)fd;
@@ -156,17 +133,6 @@ static AACS_FILE_H *_file_open(const char* filename, const char *cmode)
 }
 
 AACS_FILE_H* (*file_open)(const char* filename, const char *mode) = _file_open;
-
-int file_unlink(const char *file)
-{
-    return remove(file);
-}
-
-int file_path_exists(const char *path)
-{
-    struct stat s;
-    return stat(path, &s);
-}
 
 int file_mkdir(const char *dir)
 {
