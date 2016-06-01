@@ -23,6 +23,7 @@
  */
 
 #include "util/macro.h"
+#include "util/strutl.h"
 
 #include <stdio.h>
 #include <stdlib.h>
