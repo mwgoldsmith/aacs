@@ -39,8 +39,13 @@
 #        define AACS_PUBLIC  __attribute__((dllexport))
 #        define BD_PRIVATE
 #    else
-#        define AACS_PUBLIC  __declspec(dllexport)
-#        define BD_PRIVATE
+#        if defined(_USRDLL)
+#            define AACS_PUBLIC  __declspec(dllexport)
+#            define BD_PRIVATE 
+#        else
+#            define AACS_PUBLIC extern
+#            define BD_PRIVATE
+#        endif
 #    endif
 #elif defined(__GNUC__) && __GNUC__ >= 4
 #    define AACS_PUBLIC  __attribute__((visibility("default")))
