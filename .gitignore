@@ -28,3 +28,9 @@ src/keydbcfg-lexer.c
 src/keydbcfg-parser.c
 src/keydbcfg-parser.h
 stamp-h1
+
+.vs/
+*.VC.db
+*.opendb
+*.sdf
+*.vcxproj.user
